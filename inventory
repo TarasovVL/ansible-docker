@@ -1,0 +1,35 @@
+all:
+  children:
+    docker_hosts:
+      hosts:
+        debian_server
+        rhel_server
+        ubuntu_server
+    docker_controller:
+      hosts:
+        controller:
+          docker_compose_start: true
+          docker_compose_services:
+            - name: "frontend"
+              image: "frontimg"
+              image_ver: "latest"
+              ports:
+                - "80"
+              networks:
+                - "frontnet"
+
+            - name: "backend"
+              image: "backimg"
+              image_ver: "latest"
+              ports:
+                - "8080"
+              networks:
+                - "backnet"
+                - "secure"
+          docker_compose_networks:
+            - name: "frontnet"
+              driver: "bridge"
+            - name: "backtnet"
+              driver: "bridge"
+            - name: "secure"
+              driver: "bridge"

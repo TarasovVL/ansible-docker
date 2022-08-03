@@ -1,0 +1,11 @@
+---
+###
+docker_registry_url: "https://myrepo.domain.local"
+docker_user: "controluser"
+docker_login: "someuser"
+###
+docker_compose_start: false
+docker_compose_api_ver: "3.1"
+docker_compose_dir: "/tmp"
+docker_compose_host: "tcp://dockerhost:2376"
+docker_compose_project_name: "pet"

@@ -1,0 +1,6 @@
+---
+docker_allowed_distribs:
+  - "Ubuntu"
+  - "Debian"
+  - "CentOS"
+  - "RHEL"

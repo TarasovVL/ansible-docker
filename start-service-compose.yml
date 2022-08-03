@@ -1,0 +1,9 @@
+---
+- name: Start compose using controller host
+  hosts: docker_controller
+  tasks:
+  
+  - include_role:
+      name: compose
+    when:
+      - docker_compose_start|bool

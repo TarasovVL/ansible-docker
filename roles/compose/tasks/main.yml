@@ -1,0 +1,26 @@
+- name: compose | Log in to registry
+  community.docker.docker_login:
+    registry_url: "{{ docker_registry_url }}"
+    username: "{{ docker_login }}"
+    password: "{{ lookup('ansible.builtin.env', 'DOCKER_PASSWORD') }}"
+    reauthorize: yes
+
+- name: compose | Create compose file from template
+  become: true
+  become_user: "{{ docker_user }}"
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "{{ docker_compose_dir }}/{{ item }}"
+    owner: "{{ docker_user }}"
+  with_items:
+    - "docker-compose.yml"
+
+- name: compose | Start service with compose
+  become: true
+  become_user: "{{ docker_user }}"
+  community.docker.docker_compose:
+    docker_host: "{{ docker_compose_host }}"
+    project_name: "{{ docker_compose_project_name }}"
+    project_src: "{{ docker_compose_dir }}"
+    remove_orphans: yes
+    state: present

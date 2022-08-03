@@ -1,0 +1,25 @@
+# {{ ansible_managed }}
+version: {{ docker_compose_api_ver }}
+services:
+{% if docker_compose_services is defined %}
+{% for service in docker_compose_services %}
+    {{ service.name }}:
+      image: {{ docker_registry_url }}/{{ service.image }}:{{ service.image_ver }}
+      expose:
+{% for port in service.ports %}
+        - {{ port }}
+{% endfor %}
+      networks:
+{% for network in service.networks %}
+        - {{ network }}
+{% endfor %}
+
+{% endfor %}
+{% endif %}
+networks:
+{% if docker_compose_networks is defined %}
+{% for network in docker_compose_networks %}
+    {{ network.name }}:
+      driver: {{ network.driver }}
+{% endfor %}
+{% endif %}
